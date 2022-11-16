@@ -20,7 +20,7 @@ void user_decide(Player &user, string &response, Deck &deck) {
 }
 
 void computer_decide(Player &computer, Deck &deck) {
-    if(computer.bj_total() <= 14) {
+    if(computer.bj_total() <= 16) {
         computer.add_card(deck.draw());
         cout << "\nDealer decided to twist.\n";
     } else {
