@@ -51,7 +51,6 @@ class Player {
     private:
         std::vector<Card> hand = {};
         bool playing = true;
-        int money = 1000;
 
 };
 
