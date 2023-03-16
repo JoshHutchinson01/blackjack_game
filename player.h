@@ -18,12 +18,16 @@ class Player {
             hand.push_back(new_card);
         }
 
-        std::ostream& display(std::ostream &);
+        virtual std::ostream& display(std::ostream &);
         int bj_total(); 
         inline void stick() {playing = false;}
         inline bool is_playing() {return playing;}
 
         virtual void decide(Deck &deck) = 0;
+
+        inline std::vector<Card>& get_hand() {
+            return hand;
+        }
 
     private:
         std::vector<Card> hand = {};

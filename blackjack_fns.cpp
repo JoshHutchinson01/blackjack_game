@@ -76,7 +76,7 @@ ostream& Player::display(ostream &os) {
             for(Card card: hand) {
                 os << card.get_name() << "\n";
             }
-            cout << "Total: " << bj_total() << "\n\n";
+            os << "Total: " << bj_total() << "\n\n";
             return os;
         }
 
@@ -98,7 +98,8 @@ int Player::bj_total() {
 
 //FUNCTION DEFINITIONS FOR USER.H
 
-/**/
+/*Accepts and input of s or t from user and excetues the corresponding stick or twist functions.
+If a different input is received the user will be prompted to input something valid.*/
 void User::decide(Deck &deck) {
     string response;
     while(true) {
@@ -115,6 +116,9 @@ void User::decide(Deck &deck) {
     }
 }
 
+/*Informs the User of their current money and promts them to input a bet amount.
+If a valid bet is input then it is subtracted from their total and their current bet
+is set to that amount. If not they are prompted to input something valid.*/
 void User::make_bet() {
     cout.precision(2);
     cout << "You have \x9C" << fixed << get_money() << ". Place your bet for the current round: ";
@@ -133,6 +137,7 @@ void User::make_bet() {
     }
 }
 
+/*Adds money to the Users account equal to their current bet multiplied by multiplier.*/
 void User::payout(double multiplier) {
     double winnings = bet*multiplier;
     money += winnings;
@@ -140,6 +145,8 @@ void User::payout(double multiplier) {
 
 //FUNCTION DEFINITIONS FOR DEALER.H
 
+/*Makes the dealers decision to stick or twist. The dealer will twist on any total 16 or less
+and will stick otherwise.*/
 void Dealer::decide(Deck &deck) {
     if(bj_total() <= 16) {
         add_card(deck.draw());
@@ -148,6 +155,17 @@ void Dealer::decide(Deck &deck) {
         stick();
         cout << "\nDealer decided to stick.\n";
     }
+}
+
+/*Outputs the dealers cards with one card left face down.*/
+std::ostream& Dealer::display(std::ostream &os) {
+    auto iter = get_hand().begin() + 1;
+    while(iter != get_hand().end()) {
+        os << iter->get_name() << "\n";
+        ++iter;
+    }
+    os << "And one face down card." << "\n\n"; 
+    return os;
 }
 
 
