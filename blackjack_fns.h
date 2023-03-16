@@ -1,9 +1,16 @@
-#include "player.h"
+#ifndef BLACKJACK_FNS_H
+#define BLACKJACK_FNS_H
+
 #include "deck.h"
 #include "card.h"
+
+#include "User.h"
+#include "Dealer.h"
+
 #include <string>
 
 //declarations of the functions in blackjack_fns.cpp to use in the game.
-void user_decide(Player &user, std::string &response, Deck &deck);
-void computer_decide(Player &computer, Deck &deck);
-bool user_win(Player player, Player computer);
+bool user_win(User user, Dealer computer);
+void reshuffle(User &user, Dealer &computer, Deck &deck);
+
+#endif

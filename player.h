@@ -6,47 +6,24 @@
 #include <vector>
 
 class Deck;
+class User;
+class Dealer;
 
 class Player {
 
     public: 
+        friend void reshuffle(User &user, Dealer &computer, Deck &deck);
 
-        void add_card(Card new_card) {
+        inline void add_card(Card new_card) {
             hand.push_back(new_card);
         }
 
-        std::ostream &display(std::ostream &os = std::cout) {
-            for(Card card: hand) {
-                os << card.get_name() << "\n";
-            }
-            std::cout << "Total: " << bj_total() << "\n\n";
-            return os;
-        }
+        std::ostream& display(std::ostream &);
+        int bj_total(); 
+        inline void stick() {playing = false;}
+        inline bool is_playing() {return playing;}
 
-        int bj_total() {
-            int total = 0;
-            bool has_ace = false;
-            for(Card card: hand) {
-                if(card.value == "A") {
-                    has_ace = true;
-                }
-                total += card.bj_points;
-            }
-            if(has_ace && total+10<=21) {
-                total += 10;
-            }
-            return total;
-        }
-
-        void stick() {
-            playing = false;
-        }
-
-        bool is_playing() {
-            return playing;
-        } 
-
-        friend void reshuffle(Player &user, Player &computer, Deck &deck);
+        virtual void decide(Deck &deck) = 0;
 
     private:
         std::vector<Card> hand = {};

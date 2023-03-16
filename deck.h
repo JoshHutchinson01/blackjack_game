@@ -8,39 +8,20 @@
 #include "player.h"
 
 class Player;
+class User;
+class Dealer;
 
 class Deck {
 
     public:
+        friend void reshuffle(User &user, Dealer &computer, Deck &deck);
 
-        Card get_card(unsigned index) const {
+        inline Card get_card(unsigned index) const {
             return cards[index];
         }
 
-        Card draw() {
-            Card top = get_card(cards.size()-1);
-            cards.pop_back();
-            return top;
-        }
-
-        void shuffle() {
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(0,cards.size()-1);
-
-            int rand1=0, rand2=0;
-            Card temp;
-
-            for(int i=0; i<100; ++i) {
-                rand1 = dis(rd);
-                rand2 = dis(rd);
-                temp = cards[rand1];
-                cards[rand1] = cards[rand2];
-                cards[rand2] = temp;
-            }
-        }
-
-        friend void reshuffle(Player &user, Player &computer, Deck &deck);
+        Card draw(); 
+        void shuffle(); 
 
     private:
         std::vector<Card> cards = {{"A","H",1},{"2","H",2},{"3","H",3},{"4","H",4},{"5","H",5},{"6","H",6},{"7","H",7},{"8","H",8},

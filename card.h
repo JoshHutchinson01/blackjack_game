@@ -9,7 +9,7 @@ struct Card {
     std::string suit;
     int bj_points;
     
-    std::string get_name() const {
+    inline std::string get_name() const {
         std::string name = value;
         name += suit;
         return name;
