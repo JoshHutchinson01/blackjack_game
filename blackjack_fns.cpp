@@ -116,6 +116,24 @@ void User::decide(Deck &deck) {
     }
 }
 
+/*Allows the user to make their move. Will inform the user of their current hand. If they are Bust
+playin will be set to false and their turn will end. If not it will ask them to decide to stick
+or twist*/
+void User::move(Deck &deck) {
+    
+    cout << "Your hand is: \n\n";
+    display(cout);
+
+    if(bj_total()>21) {
+        cout << "\nYou went bust!";
+        set_playing(false);
+    } else {
+        cout << "Will you stick or twist? (type s/t): ";
+        decide(deck);
+    }
+
+}
+
 /*Informs the User of their current money and promts them to input a bet amount.
 If a valid bet is input then it is subtracted from their total and their current bet
 is set to that amount. If not they are prompted to input something valid.*/
@@ -151,6 +169,10 @@ void Dealer::decide(Deck &deck) {
     if(bj_total() <= 16) {
         add_card(deck.draw());
         cout << "\nDealer decided to twist.\n";
+        display(cout);
+    } else if(bj_total() > 21) {
+        cout << "The Dealer went bust." << "\n";
+        set_playing(false);
     } else {
         stick();
         cout << "\nDealer decided to stick.\n";

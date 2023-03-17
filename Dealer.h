@@ -17,6 +17,7 @@ class Dealer: public Player {
         friend void reshuffle(User &user, Dealer &computer, Deck &deck);
 
         void decide(Deck &deck) override;
+        inline void move(Deck &deck) override {decide(deck);}
         std::ostream& display(std::ostream &) override;
 };
 

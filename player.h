@@ -21,8 +21,10 @@ class Player {
         virtual std::ostream& display(std::ostream &);
         int bj_total(); 
         inline void stick() {playing = false;}
+        inline void set_playing(bool b) {playing = b;}
         inline bool is_playing() {return playing;}
 
+        virtual void move(Deck &deck) = 0;
         virtual void decide(Deck &deck) = 0;
 
         inline std::vector<Card>& get_hand() {

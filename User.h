@@ -19,7 +19,10 @@ class User: public Player {
         User(): money(100.00), bet(0.00) {};
 
         inline double get_money() {return money;};
+
+        void move(Deck &deck) override;
         void decide(Deck &deck) override;
+
         void make_bet();
         void payout(double multiplier);
 

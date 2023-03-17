@@ -29,27 +29,16 @@ int main() {
             computer.add_card(deck.draw());
         }
 
-        //main body if the game - runs if either the user or dealer are still playing
-        while(user.is_playing() || computer.is_playing()) {
+        //Informs the user of the Dealers's hand. 
 
-            if(user.is_playing()) {
-                cout << "Your hand is: \n\n";
-                user.display(cout);
+        //While the user is still playing they make a move.
+        while(user.is_playing()) {
+            user.move(deck);
+        }
 
-                if(user.bj_total()>21) {
-                    cout << "\nYou went bust!";
-                    break;
-                } else {
-                    cout << "Will you stick or twist? (type s/t): ";
-                }
-
-                user.decide(deck);
-            }
-
-            if(computer.is_playing()) {
-                computer.decide(deck);
-            }
-
+        //Com. turn happens after the user turn. While the computer is still playing, it makes a move
+        while(computer.is_playing()) {
+            computer.move(deck);
         }
 
         cout << "\nThe dealer had: \n";
