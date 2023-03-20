@@ -175,7 +175,7 @@ void Dealer::decide(Deck &deck) {
     if(bj_total() <= 16) {
         add_card(deck.draw());
         cout << "\nDealer decided to twist.\n";
-        display(cout);
+        concealed_display(cout);
     } else if(bj_total() > 21) {
         cout << "The Dealer went bust." << "\n";
         set_playing(false);
@@ -187,22 +187,14 @@ void Dealer::decide(Deck &deck) {
 
 /*Outputs the dealers cards with one card left face down. Overrides the usual display function where all cards 
  are revealed. The dealer does have a method which does this called display_final.*/
-std::ostream& Dealer::display(std::ostream &os) {
+std::ostream& Dealer::concealed_display(std::ostream &os) {
+    os << "The Dealer has: \n";
     auto iter = get_hand().begin() + 1;
     while(iter != get_hand().end()) {
         os << iter->get_name() << "\n";
         ++iter;
     }
     os << "And one face down card." << "\n\n"; 
-    return os;
-}
-
-/*Outputs the dealers cards with all cards now face up. Used when the dealer has finished its turn.*/
-std::ostream& Dealer::display_final(std::ostream &os) {
-    for(Card card: hand) {
-        os << card.get_name() << "\n";
-    }
-    os << "Total: " << bj_total() << "\n\n";
     return os;
 }
 

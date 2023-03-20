@@ -18,7 +18,7 @@ class Player {
             hand.push_back(new_card);
         }
 
-        virtual std::ostream& display(std::ostream &);
+        std::ostream& display(std::ostream &);
         int bj_total(); 
         inline void stick() {playing = false;}
         inline void set_playing(bool b) {playing = b;}

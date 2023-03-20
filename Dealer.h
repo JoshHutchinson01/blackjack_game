@@ -17,8 +17,7 @@ class Dealer: public Player {
 
         void decide(Deck &deck) override;
         inline void move(Deck &deck) override {decide(deck);}
-        std::ostream& display(std::ostream &) override;
-        std::ostream& display_final(std::ostream&);
+        std::ostream& concealed_display(std::ostream&);
 };
 
 #endif
