@@ -30,6 +30,8 @@ int main() {
         }
 
         //Informs the user of the Dealers's hand. 
+        cout << "Dealer's Hand: \n";
+        computer.display(cout);
 
         //While the user is still playing they make a move.
         while(user.is_playing()) {
@@ -42,7 +44,7 @@ int main() {
         }
 
         cout << "\nThe dealer had: \n";
-        computer.display(cout);
+        computer.display_final(cout);
 
         if(user_win(user, computer)) {
             cout << "\nYou win!" << endl;

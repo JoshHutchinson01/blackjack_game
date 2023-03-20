@@ -96,7 +96,10 @@ int Player::bj_total() {
             return total;
         }
 
+//_____________________________________________________________________________________________________________________________
+
 //FUNCTION DEFINITIONS FOR USER.H
+//_____________________________________________________________________________________________________________________________
 
 /*Accepts and input of s or t from user and excetues the corresponding stick or twist functions.
 If a different input is received the user will be prompted to input something valid.*/
@@ -161,7 +164,10 @@ void User::payout(double multiplier) {
     money += winnings;
 }
 
+//_____________________________________________________________________________________________________________________________
+
 //FUNCTION DEFINITIONS FOR DEALER.H
+//_____________________________________________________________________________________________________________________________
 
 /*Makes the dealers decision to stick or twist. The dealer will twist on any total 16 or less
 and will stick otherwise.*/
@@ -179,7 +185,8 @@ void Dealer::decide(Deck &deck) {
     }
 }
 
-/*Outputs the dealers cards with one card left face down.*/
+/*Outputs the dealers cards with one card left face down. Overrides the usual display function where all cards 
+ are revealed. The dealer does have a method which does this called display_final.*/
 std::ostream& Dealer::display(std::ostream &os) {
     auto iter = get_hand().begin() + 1;
     while(iter != get_hand().end()) {
@@ -189,5 +196,16 @@ std::ostream& Dealer::display(std::ostream &os) {
     os << "And one face down card." << "\n\n"; 
     return os;
 }
+
+/*Outputs the dealers cards with all cards now face up. Used when the dealer has finished its turn.*/
+std::ostream& Dealer::display_final(std::ostream &os) {
+    for(Card card: hand) {
+        os << card.get_name() << "\n";
+    }
+    os << "Total: " << bj_total() << "\n\n";
+    return os;
+}
+
+//_______________________________________________________________________________________________________________________________
 
 
