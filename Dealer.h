@@ -4,7 +4,6 @@
 #include "card.h"
 #include "deck.h"
 
-
 #include <vector>
 #include <string>
 #include <iostream>
@@ -19,6 +18,7 @@ class Dealer: public Player {
         void decide(Deck &deck) override;
         inline void move(Deck &deck) override {decide(deck);}
         std::ostream& display(std::ostream &) override;
+        std::ostream& display_final(std::ostream&);
 };
 
 #endif
