@@ -32,24 +32,30 @@ int main() {
         //Informs the user of the Dealers's hand. 
         computer.concealed_display(cout);
 
-        //While the user is still playing they make a move.
-        while(user.is_playing()) {
-            user.move(deck);
-        }
+        //insert code for if the dealer has 10/A or player has a natural.
 
-        //Com. turn happens after the user turn. While the computer is still playing, it makes a move
-        while(computer.is_playing()) {
-            computer.move(deck);
-        }
+        //Enters the hit/stand phase if they user payout has not already been decided.
+        if(!user.is_paid_out()) {
 
-        cout << "\nThe dealer had: \n";
-        computer.display(cout);
+            //While the user is still playing they make a move.
+            while(user.is_playing()) {
+                user.move(deck);
+            }
 
-        if(user_win(user, computer)) {
-            cout << "\nYou win!" << endl;
-            user.payout(2);
-        } else {
-            cout << "\nThe house wins!" << endl;
+            //Com. turn happens after the user turn. While the computer is still playing, it makes a move
+            while(computer.is_playing()) {
+                computer.move(deck);
+            } 
+
+            cout << "\nThe dealer had: \n";
+            computer.display(cout);
+
+            if(user_win(user, computer)) {
+                cout << "\nYou win!" << endl;
+                user.payout(2);
+            } else {
+                cout << "\nThe house wins!" << endl;
+            }
         }
 
         reshuffle(user, computer, deck);

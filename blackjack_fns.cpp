@@ -40,6 +40,7 @@ void reshuffle(User &user, Dealer &computer, Deck &deck) {
     deck.shuffle();
     user.playing = true;
     computer.playing = true;
+    user.is_paid_out(false);
 }
 
 //FUNCTION DEFINITIONS FROM DECK.H
@@ -158,10 +159,12 @@ void User::make_bet() {
     }
 }
 
-/*Adds money to the Users account equal to their current bet multiplied by multiplier.*/
+/*Adds money to the Users account equal to their current bet multiplied by multiplier. It also flags
+ that the user has been paid out in order to only enter one payout sequence.*/
 void User::payout(double multiplier) {
     double winnings = bet*multiplier;
     money += winnings;
+    set_paid_out(true);
 }
 
 //_____________________________________________________________________________________________________________________________
