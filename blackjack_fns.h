@@ -12,5 +12,6 @@
 //declarations of the functions in blackjack_fns.cpp to use in the game.
 bool user_win(User user, Dealer computer);
 void reshuffle(User &user, Dealer &computer, Deck &deck);
+void check_for_naturals(User &user, Dealer &dealer);
 
 #endif

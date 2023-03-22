@@ -43,6 +43,20 @@ void reshuffle(User &user, Dealer &computer, Deck &deck) {
     user.is_paid_out(false);
 }
 
+ //Checks if the dealer has natural, if so the player gets a 1x payout if they also have a natural and 0x payout
+ //if they don't. If the dealer does not have a natural and the player does they immediately get a 1.5x payout.
+void check_for_naturals(User &user, Dealer &computer) {
+    if(dealer.natural()) {
+        if(user.natural()) {
+            user.payout(1);
+        } else {
+            user.payout(0);
+        }
+    } else if(user.natural()) {
+        user.payout(1.5);
+    }
+}
+
 //FUNCTION DEFINITIONS FROM DECK.H
 
 /*Removes the top card from the deck and returns a copy of that card.*/

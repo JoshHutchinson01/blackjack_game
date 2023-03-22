@@ -32,7 +32,7 @@ int main() {
         //Informs the user of the Dealers's hand. 
         computer.concealed_display(cout);
 
-        //insert code for if the dealer has 10/A or player has a natural.
+        check_for_naturals(user, computer);
 
         //Enters the hit/stand phase if they user payout has not already been decided.
         if(!user.is_paid_out()) {
@@ -55,6 +55,7 @@ int main() {
                 user.payout(2);
             } else {
                 cout << "\nThe house wins!" << endl;
+                user.payout(0);
             }
         }
 
