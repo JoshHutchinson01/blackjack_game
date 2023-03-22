@@ -24,7 +24,7 @@ class Player {
         inline void set_playing(bool b) {playing = b;}
         inline bool is_playing() {return playing;}
 
-        inline bool natural() {return bj_total == 21;}
+        inline bool natural() {return bj_total() == 21;}
 
         virtual void move(Deck &deck) = 0;
         virtual void decide(Deck &deck) = 0;

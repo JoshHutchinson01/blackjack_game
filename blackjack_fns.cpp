@@ -40,20 +40,24 @@ void reshuffle(User &user, Dealer &computer, Deck &deck) {
     deck.shuffle();
     user.playing = true;
     computer.playing = true;
-    user.is_paid_out(false);
+    user.set_paid_out(false);
 }
 
  //Checks if the dealer has natural, if so the player gets a 1x payout if they also have a natural and 0x payout
  //if they don't. If the dealer does not have a natural and the player does they immediately get a 1.5x payout.
 void check_for_naturals(User &user, Dealer &computer) {
-    if(dealer.natural()) {
+    if(computer.natural()) {
+        cout << "\n The Dealer has a natural. \n";
         if(user.natural()) {
             user.payout(1);
+            cout << "You also have a natural so it is a tie! \n";
         } else {
             user.payout(0);
+            cout << "The House wins! \n";
         }
     } else if(user.natural()) {
         user.payout(1.5);
+        cout << "You have a natural, you win! \n";
     }
 }
 
