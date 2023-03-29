@@ -32,6 +32,9 @@ void reshuffle(User &user, Dealer &computer, Deck &deck) {
     for(Card card: user.hand) {
         deck.cards.push_back(card);
     }
+    for(Card card: user.second_hand) {
+        deck.cards.push_back(card);
+    }
     for(Card card: computer.hand) {
         deck.cards.push_back(card);
     }
@@ -47,7 +50,7 @@ void reshuffle(User &user, Dealer &computer, Deck &deck) {
  //if they don't. If the dealer does not have a natural and the player does they immediately get a 1.5x payout.
 void check_for_naturals(User &user, Dealer &computer) {
     if(computer.natural()) {
-        cout << "\n The Dealer has a natural. \n";
+        cout << "\nThe Dealer has a natural. \n";
         if(user.natural()) {
             user.payout(1);
             cout << "You also have a natural so it is a tie! \n";
@@ -90,15 +93,6 @@ void Deck::shuffle() {
 
 //FUNCTION DEFINITIONS FROM PLAYER.H
 
-/*Outputs the cards and score of a players hand.*/
-ostream& Player::display(ostream &os) {
-            for(Card card: hand) {
-                os << card.get_name() << "\n";
-            }
-            os << "Total: " << bj_total() << "\n\n";
-            return os;
-        }
-
 /*Calculates the total score of the cards in a Player's hand.*/
 int Player::bj_total() {
             int total = 0;
@@ -120,6 +114,16 @@ int Player::bj_total() {
 //FUNCTION DEFINITIONS FOR USER.H
 //_____________________________________________________________________________________________________________________________
 
+
+/*Outputs the cards and score of a players hand.*/
+ostream& User::display(ostream &os) {
+            for(Card card: hand) {
+                os << card.get_name() << "\n";
+            }
+            os << "Total: " << bj_total() << "\n\n";
+            return os;
+        }
+    
 /*Accepts and input of s or t from user and excetues the corresponding stick or twist functions.
 If a different input is received the user will be prompted to input something valid.*/
 void User::decide(Deck &deck) {
@@ -148,12 +152,16 @@ void User::move(Deck &deck) {
 
     check_pair();
 
-    if(bj_total()>21) {
-        cout << "\nYou went bust!";
-        set_playing(false);
+    if(has_split_hand == true) {
+        split_move();
     } else {
-        cout << "Will you stick or twist? (type s/t): ";
-        decide(deck);
+        if(bj_total()>21) {
+            cout << "\nYou went bust!";
+            set_playing(false);
+        } else {
+            cout << "Will you stick or twist? (type s/t): ";
+            decide(deck);
+        }
     }
 
 }
@@ -169,6 +177,7 @@ void User::check_pair() {
         while(true) {            
             if(response == "y") {
                 set_split_hand(true);
+                split_pair();
                 break;
             } else if(response == "n") {
                 break;
@@ -176,6 +185,14 @@ void User::check_pair() {
             cout << "Invalid input, please try again. \n";
         }
     }
+}
+
+/*Splits the pair by placing one of the hand cards into the second hand. WILL NEED TO CLEAN UP 
+THE SECOND HAND IN RESHUFFLE!!!!!!!!!!*/
+void User::split_pair() {
+    Card temp = hand[1];
+    hand.pop_back();
+    second_hand.push_back(temp);
 }
 
 /*Informs the User of their current money and promts them to input a bet amount.
@@ -240,6 +257,15 @@ std::ostream& Dealer::concealed_display(std::ostream &os) {
     os << "And one face down card." << "\n\n"; 
     return os;
 }
+
+/*Outputs the cards and score of a players hand.*/
+ostream& Dealer::display(ostream &os) {
+            for(Card card: hand) {
+                os << card.get_name() << "\n";
+            }
+            os << "Total: " << bj_total() << "\n\n";
+            return os;
+        }
 
 //_______________________________________________________________________________________________________________________________
 

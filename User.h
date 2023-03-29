@@ -22,6 +22,7 @@ class User: public Player {
 
         void move(Deck &deck) override;
         void decide(Deck &deck) override;
+        std::ostream& display(std::ostream&) override;
         void check_pair();
 
         void make_bet();
@@ -32,11 +33,14 @@ class User: public Player {
         bool has_split_hand() {return split_hand;}
         void set_split_hand(bool b) {split_hand = b;}
 
+        void split_pair();
+
     private:
         double money;
         double bet;
         bool paid_out;
         bool split_hand;
+        std::vector<Card> second_hand;
 };
 
 #endif
