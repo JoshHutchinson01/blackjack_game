@@ -146,6 +146,8 @@ void User::move(Deck &deck) {
     cout << "Your hand is: \n\n";
     display(cout);
 
+    check_pair();
+
     if(bj_total()>21) {
         cout << "\nYou went bust!";
         set_playing(false);
@@ -154,6 +156,26 @@ void User::move(Deck &deck) {
         decide(deck);
     }
 
+}
+
+/*Checks whether the user has been given a pair in their original hand. If yes, it asks them
+whether they would like to split that pair and if so changes the split pair flag to true.
+The split pair flag will etermine what the move action of the player involves. */
+void User::check_pair() {
+    if(hand.size() == 2 && hand[1].bj_points == hand[0].bj_points) {
+        cout << "You have a pair. Would you like to split the pair? (y/n): ";
+        string response;
+        cin >> response;
+        while(true) {            
+            if(response == "y") {
+                set_split_hand(true);
+                break;
+            } else if(response == "n") {
+                break;
+            }
+            cout << "Invalid input, please try again. \n";
+        }
+    }
 }
 
 /*Informs the User of their current money and promts them to input a bet amount.
