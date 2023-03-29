@@ -33,7 +33,7 @@ class Player {
             return hand;
         }
 
-    private:
+    protected:
         std::vector<Card> hand = {};
         bool playing = true;
 
