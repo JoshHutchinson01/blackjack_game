@@ -120,7 +120,7 @@ ostream& User::display(ostream &os) {
     if(playing_split_hand() == true) {
 
         os << "Your extra hand is: \n\n";
-        for(Card card: hand) {
+        for(Card card: second_hand) {
             os << card.get_name() << "\n";
         }
         os << "Total: " << bj_total(second_hand) << "\n\n";
@@ -186,7 +186,7 @@ void User::next_turn(Deck &deck, vector<Card> &h, bool second_or_first) {
 whether they would like to split that pair and if so changes the split pair flag to true.
 The split pair flag will etermine what the move action of the player involves. */
 void User::check_pair() {
-    if(hand.size() == 2 && hand[1].bj_points == hand[0].bj_points) {
+    if(hand.size() == 2 && hand[1].bj_points == hand[0].bj_points && second_hand.size() == 0) {
         display(cout);
         cout << "You have a pair. Would you like to split the pair? (y/n): ";
         string response;
