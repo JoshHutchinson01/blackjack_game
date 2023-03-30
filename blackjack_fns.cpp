@@ -117,7 +117,16 @@ int Player::bj_total(vector<Card> h) {
 
 /*Outputs the cards and score of a players hand.*/
 ostream& User::display(ostream &os) {
-    if(has_split_hand() == true) {
+    if(playing_split_hand() == true) {
+
+        os << "Your extra hand is: \n\n";
+        for(Card card: hand) {
+            os << card.get_name() << "\n";
+        }
+        os << "Total: " << bj_total(second_hand) << "\n\n";
+        return os;
+
+    } else {
 
         os << "Your hand is: \n\n";
         for(Card card: hand) {
@@ -125,19 +134,6 @@ ostream& User::display(ostream &os) {
         }
         os << "Total: " << bj_total(hand) << "\n\n";
         return os;
-
-    } else {
-
-        os << "Your first hand is: \n\n";
-        for(Card card: hand) {
-            os << card.get_name() << "\n";
-        }
-        os << "Total: " << bj_total(hand) << "\n\n";
-        os << "Your second hand is: \n\n";
-        for(Card card: second_hand) {
-            os << card.get_name() << "\n";
-        }
-        os << "Total: " << bj_total(second_hand) << "\n\n";
     }
 
 }
@@ -165,25 +161,25 @@ playin will be set to false and their turn will end. If not it will ask them to 
 or twist*/
 void User::move(Deck &deck) {
     
-    display(cout);
     check_pair();
+    display(cout);
 
-    if(has_split_hand() == true) {
-        split_move();
+    if(playing_split_hand() == true) {
+        next_turn(deck, second_hand, playing_split_hand());
     } else {
-        if(bj_total()>21) {
-            cout << "\nYou went bust!";
-            set_playing(false);
-        } else {
-            cout << "Will you stick or twist? (type s/t): ";
-            decide(deck);
-        }
+        next_turn(deck, hand, playing_split_hand());
     }
 
 }
 
-void User::split_move(Deck &deck) {
-    
+void User::next_turn(Deck &deck, vector<Card> &h, bool second_or_first) {
+    if(bj_total(h)>21) {
+        cout << "\nYou went bust!";
+        second_or_first ? set_split_hand(false) : set_playing(false);
+    } else {
+        cout << "Will you stick or twist? (type s/t): ";
+        decide(deck);
+    }
 }
 
 /*Checks whether the user has been given a pair in their original hand. If yes, it asks them
@@ -191,6 +187,7 @@ whether they would like to split that pair and if so changes the split pair flag
 The split pair flag will etermine what the move action of the player involves. */
 void User::check_pair() {
     if(hand.size() == 2 && hand[1].bj_points == hand[0].bj_points) {
+        display(cout);
         cout << "You have a pair. Would you like to split the pair? (y/n): ";
         string response;
         cin >> response;

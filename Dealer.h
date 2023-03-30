@@ -14,6 +14,7 @@ class User;
 class Dealer: public Player {
     public:
         friend void reshuffle(User &user, Dealer &computer, Deck &deck);
+        friend bool user_win(User user, Dealer computer);
 
         void decide(Deck &deck) override;
         inline void move(Deck &deck) override {decide(deck);}

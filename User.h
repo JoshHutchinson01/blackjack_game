@@ -15,6 +15,7 @@ class Dealer;
 class User: public Player {
     public:
         friend void reshuffle(User &user, Dealer &computer, Deck &deck);
+        friend bool user_win(User user, Dealer computer);
 
         User(): money(100.00), bet(0.00), paid_out(false), split_hand(false) {};
 
@@ -24,17 +25,26 @@ class User: public Player {
         void decide(Deck &deck) override;
         std::ostream& display(std::ostream&) override;
         void check_pair();
-        void split_move(Deck &deck);
+        void next_turn(Deck&, std::vector<Card>& , bool);
 
         void make_bet();
         void payout(double multiplier);
 
         bool is_paid_out() {return paid_out;}
         void set_paid_out(bool b) {paid_out = b;}
-        bool has_split_hand() {return split_hand;}
+        bool playing_split_hand() {return split_hand;}
         void set_split_hand(bool b) {split_hand = b;}
 
         void split_pair();
+
+        inline void add_card(Card new_card) override {
+           split_hand ? second_hand.push_back(new_card) : hand.push_back(new_card);
+        }
+
+        inline void stick() override {
+            split_hand ? split_hand = false : playing = false;
+        }
+
 
     private:
         double money;
