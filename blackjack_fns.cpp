@@ -17,9 +17,9 @@ class Dealer;
 /*Compares the user's score to the dealers and returns true if the user wins or false
     if the dealer wins.*/
 bool user_win(User user, Dealer computer) {
-    if(user.bj_total()<=21 && computer.bj_total()>21) {
+    if(user.bj_total(user.hand)<=21 && computer.bj_total(computer.hand)>21) {
         return true;
-    }else if(user.bj_total() <=21 && user.bj_total()>computer.bj_total()) {
+    }else if(user.bj_total(user.hand) <=21 && user.bj_total(user.hand)>computer.bj_total(computer.hand)) {
         return true;
     } else {
         return false;
@@ -94,10 +94,10 @@ void Deck::shuffle() {
 //FUNCTION DEFINITIONS FROM PLAYER.H
 
 /*Calculates the total score of the cards in a Player's hand.*/
-int Player::bj_total() {
+int Player::bj_total(vector<Card> h) {
             int total = 0;
             bool has_ace = false;
-            for(Card card: hand) {
+            for(Card card: h) {
                 if(card.value == "A") {
                     has_ace = true;
                 }
@@ -117,12 +117,30 @@ int Player::bj_total() {
 
 /*Outputs the cards and score of a players hand.*/
 ostream& User::display(ostream &os) {
-            for(Card card: hand) {
-                os << card.get_name() << "\n";
-            }
-            os << "Total: " << bj_total() << "\n\n";
-            return os;
+    if(has_split_hand() == true) {
+
+        os << "Your hand is: \n\n";
+        for(Card card: hand) {
+            os << card.get_name() << "\n";
         }
+        os << "Total: " << bj_total(hand) << "\n\n";
+        return os;
+
+    } else {
+
+        os << "Your first hand is: \n\n";
+        for(Card card: hand) {
+            os << card.get_name() << "\n";
+        }
+        os << "Total: " << bj_total(hand) << "\n\n";
+        os << "Your second hand is: \n\n";
+        for(Card card: second_hand) {
+            os << card.get_name() << "\n";
+        }
+        os << "Total: " << bj_total(second_hand) << "\n\n";
+    }
+
+}
     
 /*Accepts and input of s or t from user and excetues the corresponding stick or twist functions.
 If a different input is received the user will be prompted to input something valid.*/
@@ -147,12 +165,10 @@ playin will be set to false and their turn will end. If not it will ask them to 
 or twist*/
 void User::move(Deck &deck) {
     
-    cout << "Your hand is: \n\n";
     display(cout);
-
     check_pair();
 
-    if(has_split_hand == true) {
+    if(has_split_hand() == true) {
         split_move();
     } else {
         if(bj_total()>21) {
@@ -164,6 +180,10 @@ void User::move(Deck &deck) {
         }
     }
 
+}
+
+void User::split_move(Deck &deck) {
+    
 }
 
 /*Checks whether the user has been given a pair in their original hand. If yes, it asks them
@@ -232,11 +252,11 @@ void User::payout(double multiplier) {
 /*Makes the dealers decision to stick or twist. The dealer will twist on any total 16 or less
 and will stick otherwise.*/
 void Dealer::decide(Deck &deck) {
-    if(bj_total() <= 16) {
+    if(bj_total(hand) <= 16) {
         add_card(deck.draw());
         cout << "\nDealer decided to twist.\n";
         concealed_display(cout);
-    } else if(bj_total() > 21) {
+    } else if(bj_total(hand) > 21) {
         cout << "The Dealer went bust." << "\n";
         set_playing(false);
     } else {
@@ -263,7 +283,7 @@ ostream& Dealer::display(ostream &os) {
             for(Card card: hand) {
                 os << card.get_name() << "\n";
             }
-            os << "Total: " << bj_total() << "\n\n";
+            os << "Total: " << bj_total(hand) << "\n\n";
             return os;
         }
 

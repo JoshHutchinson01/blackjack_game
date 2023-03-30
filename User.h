@@ -24,6 +24,7 @@ class User: public Player {
         void decide(Deck &deck) override;
         std::ostream& display(std::ostream&) override;
         void check_pair();
+        void split_move(Deck &deck);
 
         void make_bet();
         void payout(double multiplier);

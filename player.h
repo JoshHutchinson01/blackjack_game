@@ -17,8 +17,8 @@ class Player {
         inline void add_card(Card new_card) {
             hand.push_back(new_card);
         }
-        
-        int bj_total(); 
+
+        int bj_total(std::vector<Card> h); 
         inline void stick() {playing = false;}
         inline void set_playing(bool b) {playing = b;}
         inline bool is_playing() {return playing;}
